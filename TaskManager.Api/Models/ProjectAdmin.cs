@@ -12,6 +12,8 @@ namespace TaskManager.Api.Models
 
         public List<Project> Projects { get; set; } = new List<Project>();
 
+        public ProjectAdmin() { }
+
         public ProjectAdmin(User user) 
         {
             UserId = user.Id;

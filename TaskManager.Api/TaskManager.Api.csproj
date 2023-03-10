@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Models\Abstractions\" />
+    <Folder Include="Models\Data\" />
   </ItemGroup>
 
   <ItemGroup>

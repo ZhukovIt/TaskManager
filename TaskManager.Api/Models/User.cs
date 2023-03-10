@@ -30,5 +30,19 @@ namespace TaskManager.Api.Models
         public List<Task> Tasks { get; set; } = new List<Task>();
 
         public UserStatus Status { get; set; }
+
+        public User() { }
+
+        public User(string fName, string lName, string email, string password, UserStatus status = UserStatus.User, string phone = null, byte[] photo = null)
+        {
+            FirstName= fName;
+            LastName= lName;
+            Email= email;
+            Password= password;
+            Phone= phone;
+            Photo= photo;
+            RegistrationDate= DateTime.Now;
+            Status= status;
+        }
     }
 }

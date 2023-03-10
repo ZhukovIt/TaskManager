@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 
 namespace TaskManager.Api.Models
 {
@@ -17,5 +17,7 @@ namespace TaskManager.Api.Models
         public int ProjectId { get; set; }
 
         public Project Project { get; set; }
+
+        public List<Task> Tasks { get; set; } = new List<Task>();
     }
 }

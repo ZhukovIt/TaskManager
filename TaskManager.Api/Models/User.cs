@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TaskManager.Common.Models;
 
 namespace TaskManager.Api.Models
 {
@@ -43,6 +44,22 @@ namespace TaskManager.Api.Models
             Photo= photo;
             RegistrationDate= DateTime.Now;
             Status= status;
+        }
+
+        public UserModel ToDto()
+        {
+            return new UserModel()
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                Email = Email,
+                Password= Password,
+                Phone= Phone,
+                Photo= Photo,
+                RegistrationDate= RegistrationDate,
+                Status= Status
+            };
         }
     }
 }

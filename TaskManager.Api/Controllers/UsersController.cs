@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskManager.Api.Models;
@@ -10,6 +12,7 @@ using TaskManager.Common.Models;
 
 namespace TaskManager.Api.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public sealed class UsersController : ControllerBase
@@ -21,6 +24,7 @@ namespace TaskManager.Api.Controllers
             m_db = db;
         }
 
+        [AllowAnonymous]
         [HttpGet("test")]
         public IActionResult TestApi()
         {

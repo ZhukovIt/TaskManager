@@ -21,7 +21,7 @@ namespace TaskManager.Api.Models.Services
         {
             string userName = "";
             string userPass = "";
-            string authHeader = request.Headers["Autorization"].ToString();
+            string authHeader = request.Headers["Authorization"].ToString();
             if (authHeader != null && authHeader.StartsWith("Basic"))
             {
                 string encodedUserNamePass = authHeader.Replace("Basic ", "");

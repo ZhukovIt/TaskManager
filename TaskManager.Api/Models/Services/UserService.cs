@@ -1,14 +1,18 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using TaskManager.Api.Models.Abstractions;
 using TaskManager.Api.Models.Data;
+using TaskManager.Common.Models;
 
 namespace TaskManager.Api.Models.Services
 {
-    public sealed class UserService
+    public sealed class UserService : ICommonService<UserModel>
     {
         private readonly ApplicationContext m_db;
 
@@ -61,6 +65,81 @@ namespace TaskManager.Api.Models.Services
                 return claimsIdentity;
             }
             return null;
+        }
+
+        public bool Create(UserModel model)
+        {
+            return DoAction(() =>
+            {
+                User newUser = new User(model.FirstName, model.LastName, model.Email,
+                    model.Password, model.Status, model.Phone, model.Photo);
+                m_db.Users.Add(newUser);
+                m_db.SaveChanges();
+            });
+        }
+
+        public bool Update(int id, UserModel model)
+        {
+            User userForUpdate = m_db.Users.FirstOrDefault(user => user.Id == id);
+            if (userForUpdate != null)
+            {
+                return DoAction(() =>
+                {
+                    userForUpdate.FirstName = model.FirstName;
+                    userForUpdate.LastName = model.LastName;
+                    userForUpdate.Email = model.Email;
+                    userForUpdate.Password = model.Password;
+                    userForUpdate.Phone = model.Phone;
+                    userForUpdate.Photo = model.Photo;
+                    userForUpdate.Status = model.Status;
+
+                    m_db.Users.Update(userForUpdate);
+                    m_db.SaveChanges();
+                });
+            }
+            return false;
+        }
+
+        public bool Delete(int id)
+        {
+            User user = m_db.Users.FirstOrDefault(u => u.Id == id);
+            if (user != null)
+            {
+                return DoAction(() =>
+                {
+                    m_db.Remove(user);
+                    m_db.SaveChanges();
+                });
+            }
+            return false;
+        }
+
+        public async Task<bool> CreateMultipleUsers(List<UserModel> userModels)
+        {
+            try
+            {
+                var newUsers = userModels.Select(u => new User(u));
+                await m_db.Users.AddRangeAsync(newUsers);
+                await m_db.SaveChangesAsync();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool DoAction(Action action)
+        {
+            try
+            {
+                action.Invoke();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

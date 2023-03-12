@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using TaskManager.Common.Models;
 
 namespace TaskManager.Api.Models
 {
@@ -16,5 +16,28 @@ namespace TaskManager.Api.Models
         public List<Desk> AllDesks { get; set; } = new List<Desk>();
 
         public ProjectStatus Status { get; set; }
+
+        public Project() { }
+
+        public Project(ProjectModel projectModel) : base(projectModel)
+        {
+            Id = projectModel.Id;
+            AdminId = projectModel.AdminId;
+            Status= projectModel.Status;
+        }
+
+        public ProjectModel ToDto()
+        {
+            return new ProjectModel()
+            {
+                Id = Id,
+                Name = Name,
+                Description = Description,
+                CreationDate = CreationDate,
+                Photo = Photo,
+                AdminId = AdminId,
+                Status = Status
+            };
+        }
     }
 }

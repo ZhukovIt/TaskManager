@@ -12,13 +12,11 @@ using TaskManager.Common.Models;
 
 namespace TaskManager.Api.Models.Services
 {
-    public sealed class UserService : ICommonService<UserModel>
+    public sealed class UsersService : AbstractionService, ICommonService<UserModel>
     {
-        private readonly ApplicationContext m_db;
-
-        public UserService(ApplicationContext db)
+        public UsersService(ApplicationContext db) : base(db)
         {
-            m_db = db;
+            
         }
 
         public Tuple<string, string> GetUserLoginPassFromBasicAuth(HttpRequest request)
@@ -41,6 +39,12 @@ namespace TaskManager.Api.Models.Services
         public User GetUser(string login, string password)
         {
             User user = m_db.Users.FirstOrDefault(u => u.Email == login && u.Password == password);
+            return user;
+        }
+
+        public User GetUser(string login)
+        {
+            User user = m_db.Users.FirstOrDefault(u => u.Email == login);
             return user;
         }
 
@@ -121,19 +125,6 @@ namespace TaskManager.Api.Models.Services
                 var newUsers = userModels.Select(u => new User(u));
                 await m_db.Users.AddRangeAsync(newUsers);
                 await m_db.SaveChangesAsync();
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private bool DoAction(Action action)
-        {
-            try
-            {
-                action.Invoke();
             }
             catch
             {

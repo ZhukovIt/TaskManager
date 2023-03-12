@@ -17,12 +17,12 @@ namespace TaskManager.Api.Controllers
     public sealed class AccountController : ControllerBase
     {
         private readonly ApplicationContext m_db;
-        private readonly UserService m_userService;
+        private readonly UsersService m_userService;
 
         public AccountController(ApplicationContext db)
         {
             m_db = db;
-            m_userService = new UserService(m_db);
+            m_userService = new UsersService(m_db);
         }
 
         [Authorize]

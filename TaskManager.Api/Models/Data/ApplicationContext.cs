@@ -18,7 +18,7 @@ namespace TaskManager.Api.Models.Data
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) 
         {
-            Database.EnsureCreated();
+            Database.Migrate();
             if (!Users.Any(user => user.Status == UserStatus.Admin))
             {
                 User admin = new User("Victor", "Zhukov", "victor777jt@yandex.ru", "q12werty", UserStatus.Admin);

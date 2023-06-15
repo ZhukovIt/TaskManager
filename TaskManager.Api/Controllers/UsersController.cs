@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace TaskManager.Api.Controllers
         [HttpGet("test")]
         public IActionResult TestApi()
         {
-            return Ok("Всем привет!");
+            return Ok($"Сервер запущен. Время запуска: {DateTime.Now}");
         }
 
         [HttpPost]

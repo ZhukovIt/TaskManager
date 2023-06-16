@@ -63,8 +63,13 @@ namespace TaskManager.Api.Models.Services
 
         public ProjectModel Get(int id)
         {
-            Project project = m_db.Projects.FirstOrDefault(p => p.Id == id);
-            return project?.ToDto();
+            Project project = m_db.Projects.Include(p => p.AllUsers).FirstOrDefault(p => p.Id == id);
+            var projectModel = project?.ToDto();
+            if (projectModel != null)
+            {
+                projectModel.AllUsersIds = project.AllUsers.Select(u => u.Id).ToList();
+            }
+            return projectModel;
         }
 
         public async Task<IEnumerable<ProjectModel>> GetByUserId(int userId)
@@ -82,9 +87,9 @@ namespace TaskManager.Api.Models.Services
             return result;
         }
 
-        public IQueryable<ProjectModel> GetAll()
+        public IQueryable<CommonModel> GetAll()
         {
-            return m_db.Projects.Select(p => p.ToDto());
+            return m_db.Projects.Select(p => p.ToDto() as CommonModel);
         }
 
         public void AddUsersToProject(int id, List<int> userIds)

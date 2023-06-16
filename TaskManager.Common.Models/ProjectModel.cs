@@ -9,8 +9,8 @@ namespace TaskManager.Common.Models
 
         public int? AdminId { get; set; }
 
-        public List<UserModel> AllUsers { get; set; } = new List<UserModel>();
+        public List<int> AllUsersIds { get; set; }
 
-        public List<DeskModel> AllDesks { get; set; } = new List<DeskModel>();
+        public List<int> AllDesksIds { get; set; }
     }
 }

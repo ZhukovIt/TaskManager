@@ -12,6 +12,6 @@ namespace TaskManager.Common.Models
 
         public int AdminId { get; set; }
 
-        public List<TaskModel> Tasks { get; set; } = new List<TaskModel>();
+        public List<int> TaskIds { get; set; }
     }
 }
